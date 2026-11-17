@@ -1,0 +1,13 @@
+# .dockerignore
+node_modules
+.git
+.gitignore
+dist
+.umi
+.umi-production
+.env
+.env.local
+.vscode
+.DS_Store
+npm-debug.log
+yarn-error.log
