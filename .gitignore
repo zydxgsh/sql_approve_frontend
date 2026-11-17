@@ -1,0 +1,50 @@
+# ===== 通用 =====
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
+!.env.example
+
+# ===== Python / 后端 =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+data/*.db
+
+# ===== Node / 前端 =====
+node_modules/
+dist/
+build/
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+.env.local
+.umirc.local.ts
+config/config.local.ts
+src/.umi
+src/.umi-production
+src/.umi-test
+.umi
+.umi-production
+.umi-test
+dist
+.mfsu
+.swc
+.turbopack
+
+
+# ===== IDE / 编辑器 =====
+.idea/
+.vscode/
+*.swp

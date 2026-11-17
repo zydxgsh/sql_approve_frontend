@@ -1,0 +1,239 @@
+// @import './styles/variables.less';
+
+.appLayout {
+  height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: @bg;
+  color: @txt;
+  font-size: 14px;
+  font-family: @sans;
+}
+
+/* 三栏 */
+.body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+.colLeft {
+  background: @panel !important;
+  border-right: 1px solid @line;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.colCenter {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+.colRight {
+  background: @panel !important;
+  border-left: 1px solid @line;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.colHead {
+  padding: 14px 16px;
+  border-bottom: 1px solid @line-soft;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  h2 {
+    font-size: 14px;
+    font-weight: 600;
+    flex: 1;
+    margin: 0;
+  }
+}
+.apiTag {
+  font-family: @mono;
+  font-size: 11px;
+  color: @muted;
+  background: @line-soft;
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  border: none;
+  margin: 0;
+}
+
+/* 左栏内部 */
+.leftBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.exLabel {
+  font-size: 12px;
+  color: @muted;
+  margin-bottom: 6px;
+}
+.chips {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chip {
+  text-align: left;
+  font-size: 13px;
+  padding: 9px 12px;
+  border: 1px dashed @line;
+  background: @bg;
+  border-radius: 8px;
+  color: @txt;
+  cursor: pointer;
+  font-family: inherit;
+
+  &:hover {
+    border-color: @blue;
+    background: @blue-soft;
+    color: @blue;
+  }
+}
+.riskMini {
+  float: right;
+  font-size: 11px;
+  padding: 0 6px;
+  border-radius: 4px;
+  margin: 0;
+  line-height: 18px;
+}
+
+.req {
+  width: 100%;
+  resize: vertical;
+  font-size: 14px;
+  line-height: 1.5;
+  border-radius: 8px;
+}
+.submitRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.chat {
+  border-top: 1px solid @line-soft;
+  padding: 14px 16px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 160px;
+}
+
+/* 中栏 */
+.pipelineCard {
+  background: @panel;
+  border: 1px solid @line;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 18px;
+}
+.pipelineTitle {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 底部状态栏 */
+.statusbar {
+  height: 44px;
+  flex-shrink: 0;
+  background: @panel;
+  border-top: 1px solid @line;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 20px;
+  font-size: 13px;
+  line-height: normal;
+}
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-weight: 500;
+  font-size: 12.5px;
+
+  &.running {
+    background: @blue-soft;
+    color: @blue;
+  }
+  &.wait {
+    background: @amber-soft;
+    color: @amber;
+  }
+  &.done {
+    background: @green-soft;
+    color: @green;
+  }
+  &.rejected {
+    background: @red-soft;
+    color: @red;
+  }
+  &.failed {
+    background: @red-soft;
+    color: @red;
+  }
+}
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.hint {
+  font-size: 12px;
+  color: @muted;
+}
+
+/* 响应式 */
+@media (max-width: 900px) {
+  .body {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .colLeft,
+  .colRight {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+    border: none;
+    border-bottom: 1px solid @line;
+  }
+  .colCenter {
+    padding: 14px;
+  }
+  .topbar {
+    height: auto;
+    flex-wrap: wrap;
+    padding: 10px 14px;
+  }
+  .brand small {
+    display: none;
+  }
+  .statusbar {
+    height: auto;
+    flex-wrap: wrap;
+    padding: 8px 14px;
+    gap: 8px;
+  }
+}

@@ -1,0 +1,169 @@
+// @import '../../styles/variables.less';
+
+.panel {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.panelTitle {
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.riskBadge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+  &.amber {
+    background: @amber-soft;
+    color: @amber;
+  }
+  &.red {
+    background: @red-soft;
+    color: @red;
+  }
+  &.green {
+    background: @green-soft;
+    color: @green;
+  }
+}
+
+.summary {
+  border: 1px solid @line;
+  border-radius: 10px;
+  overflow: hidden;
+
+  .row {
+    display: flex;
+    padding: 10px 14px;
+    font-size: 13px;
+    border-bottom: 1px solid @line-soft;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  .k {
+    width: 84px;
+    flex-shrink: 0;
+    color: @muted;
+  }
+  .v {
+    flex: 1;
+    font-weight: 500;
+  }
+}
+.revYes {
+  color: @green;
+}
+.revNo {
+  color: @red;
+  font-weight: 600;
+}
+
+.hint {
+  font-size: 12px;
+  color: @muted;
+}
+
+.sqlBox {
+  border: 1px solid @line;
+  border-radius: 10px;
+  overflow: hidden;
+
+  .sqlHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    background: @bg;
+    font-size: 12px;
+    color: @sub;
+  }
+  pre {
+    background: @code-bg;
+    color: @code-txt;
+    padding: 14px;
+    font-family: @mono;
+    font-size: 12.5px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0;
+
+    :global(.kw) {
+      color: #7dd3fc;
+    }
+    :global(.str) {
+      color: #86efac;
+    }
+    :global(.num) {
+      color: #fca5a5;
+    }
+    :global(.cmt) {
+      color: #64748b;
+      font-style: italic;
+    }
+  }
+}
+
+.apiTag {
+  font-family: @mono;
+  font-size: 11px;
+  color: @muted;
+  background: @line-soft;
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.dangerConfirm {
+  border: 1px solid @red;
+  background: @red-soft;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+}
+
+.actionRow {
+  display: flex;
+  gap: 10px;
+}
+
+.approveBtn {
+  flex: 1;
+  height: 42px;
+  background: @green;
+  border-color: @green;
+  font-weight: 600;
+  &:hover:not(:disabled) {
+    background: #15803d;
+    border-color: #15803d;
+  }
+  &:disabled {
+    background: @line;
+    border-color: @line;
+    color: @muted;
+  }
+}
+
+.rejectBtn {
+  flex: 1;
+  height: 42px;
+  background: #fff;
+  border-color: @red;
+  color: @red;
+  font-weight: 600;
+  &:hover {
+    background: @red-soft;
+    border-color: @red;
+    color: @red;
+  }
+}

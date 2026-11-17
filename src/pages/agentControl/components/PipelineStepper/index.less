@@ -1,0 +1,115 @@
+// @import '../../styles/variables.less';
+
+.stepper {
+  display: flex;
+  align-items: flex-start;
+}
+
+.step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 17px;
+    left: -50%;
+    width: 100%;
+    height: 2px;
+    background: @line;
+    z-index: 0;
+  }
+  &:first-child::before {
+    display: none;
+  }
+}
+
+.node {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  background: #fff;
+  border: 2px solid @line;
+  color: @muted;
+  z-index: 1;
+}
+
+.sName {
+  font-size: 12.5px;
+  margin-top: 8px;
+  font-weight: 500;
+}
+.sDesc {
+  font-size: 11px;
+  color: @muted;
+  margin-top: 2px;
+}
+
+.done {
+  .node {
+    background: @green;
+    border-color: @green;
+    color: #fff;
+  }
+  &::before {
+    background: @green;
+  }
+  .sName {
+    color: @green;
+  }
+}
+.running {
+  .node {
+    background: @blue;
+    border-color: @blue;
+    color: #fff;
+    animation: pulse 1.4s infinite;
+  }
+  .sName {
+    color: @blue;
+  }
+}
+.paused {
+  .node {
+    background: @amber;
+    border-color: @amber;
+    color: #fff;
+  }
+  .sName {
+    color: @amber;
+  }
+}
+.error {
+  .node {
+    background: @red;
+    border-color: @red;
+    color: #fff;
+  }
+  .sName {
+    color: @red;
+  }
+}
+.todo .node {
+  background: #fff;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.35);
+  }
+  70% {
+    box-shadow: 0 0 0 9px rgba(37, 99, 235, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+  }
+}

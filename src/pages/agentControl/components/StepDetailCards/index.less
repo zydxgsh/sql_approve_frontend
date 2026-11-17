@@ -1,0 +1,138 @@
+// @import '~@/styles/variables.less';
+
+.stepCards {
+  .stepCard {
+    border: 1px solid @line;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 16px;
+    cursor: pointer;
+    background: #fff;
+    &:hover {
+      background: @bg;
+    }
+  }
+
+  .badge {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    flex-shrink: 0;
+
+    &.done {
+      background: @green;
+    }
+    &.running {
+      background: @blue;
+    }
+    &.paused {
+      background: @amber;
+    }
+    &.todo {
+      background: @line;
+      color: @sub;
+    }
+    &.error {
+      background: @red;
+    }
+  }
+
+  .title {
+    font-weight: 600;
+    font-size: 13.5px;
+    flex: 1;
+  }
+
+  .state {
+    font-size: 11.5px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    &.done {
+      background: @green-soft;
+      color: @green;
+    }
+    &.running {
+      background: @blue-soft;
+      color: @blue;
+    }
+    &.paused {
+      background: @amber-soft;
+      color: @amber;
+    }
+    &.todo {
+      background: @line-soft;
+      color: @muted;
+    }
+    &.error {
+      background: @red-soft;
+      color: @red;
+    }
+  }
+
+  .arrow {
+    color: @muted;
+    transition: transform 0.2s;
+  }
+  .open .arrow {
+    transform: rotate(90deg);
+  }
+
+  .body {
+    padding: 4px 16px 16px;
+  }
+
+  .ioBlock {
+    margin-top: 10px;
+  }
+  .ioLabel {
+    font-size: 11.5px;
+    color: @muted;
+    margin-bottom: 4px;
+    font-family: @mono;
+  }
+  .ioBlock pre {
+    background: @code-bg;
+    color: @code-txt;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-family: @mono;
+    font-size: 12.5px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    // SQL 高亮
+    :global(.kw) {
+      color: #7dd3fc;
+    }
+    :global(.str) {
+      color: #86efac;
+    }
+    :global(.num) {
+      color: #fca5a5;
+    }
+    :global(.cmt) {
+      color: #64748b;
+      font-style: italic;
+    }
+  }
+  .plain {
+    background: @bg;
+    border: 1px solid @line-soft;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+}

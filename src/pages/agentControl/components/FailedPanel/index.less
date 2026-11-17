@@ -1,0 +1,105 @@
+// @import '../../styles/variables.less';
+
+.wrap {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+.fail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: @red;
+}
+.auditBar {
+  border: 1px solid @line;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  background: @bg;
+}
+.aK {
+  color: @muted;
+  margin-right: 4px;
+}
+.aV {
+  font-weight: 500;
+  font-family: @mono;
+  font-size: 12px;
+}
+
+.errorBox {
+  border: 1px solid @red;
+  background: @red-soft;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 13px;
+
+  .eTitle {
+    font-weight: 600;
+    color: @red;
+    margin-bottom: 4px;
+  }
+  pre {
+    background: #fff;
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+    padding: 10px;
+    font-family: @mono;
+    font-size: 12px;
+    margin-top: 8px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: #991b1b;
+  }
+}
+
+.ioLabel {
+  font-size: 11.5px;
+  color: @muted;
+  margin-bottom: 4px;
+  font-family: @mono;
+}
+.sqlMini {
+  background: @code-bg;
+  color: @code-txt;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-family: @mono;
+  font-size: 12px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+
+  :global(.kw) {
+    color: #7dd3fc;
+  }
+  :global(.str) {
+    color: #86efac;
+  }
+  :global(.num) {
+    color: #fca5a5;
+  }
+  :global(.cmt) {
+    color: #64748b;
+    font-style: italic;
+  }
+}
+.note {
+  background: @red-soft;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+  color: @txt;
+}
+.actionRow {
+  display: flex;
+  gap: 10px;
+}

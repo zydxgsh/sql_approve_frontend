@@ -1,0 +1,40 @@
+// @import '../../styles/variables.less';
+
+.wrap {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.spinner {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid @line;
+  border-top-color: @blue;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.title {
+  font-size: 15px;
+  font-weight: 600;
+  color: @blue;
+}
+.sub {
+  font-size: 13px;
+  color: @sub;
+  max-width: 280px;
+}
+.hint {
+  font-size: 12px;
+  color: @muted;
+  margin-top: 4px;
+}
