@@ -399,5 +399,5 @@ export const SCENES: Record<SceneKey, SceneConfig> = {
 export const riskConfig: Record<string, any> = {
     'yellow': { txt: '中风险 · 黄', cls: 'amber' },
     'green': { txt: '低风险 · 绿', cls: 'green' },
-    'red': { txt: '高风险 · 黄', cls: 'red' },
+    'red': { txt: '高风险 · 红', cls: 'red' },
 }

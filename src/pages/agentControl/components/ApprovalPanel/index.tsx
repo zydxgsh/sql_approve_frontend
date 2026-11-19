@@ -66,6 +66,8 @@ const ApprovalPanel: React.FC<Props> = (props) => {
       ? styles.revYes
       : '';
 
+  console.log('-------------------------', scene.summary);
+
   return (
     <div className={styles.panel}>
       <div className={styles.panelTitle}>

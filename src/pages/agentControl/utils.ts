@@ -77,14 +77,20 @@ const pareseNode = (nodeValues: Record<string, any>, scene: Record<string, any>)
 // 生成sql语句
 const generateNode = (nodeValues: Record<string, any>, scene: Record<string, any>) => {
     const { chatUser, cards = [], sql } = scene;
-    const { output: { generated_sql = '' } = {} } = nodeValues || {};
+    const { output: { generated_sql = '', sql_analyze = {} } = {} } = nodeValues || {};
+    const { detail_list = [] } = sql_analyze || {};
     return {
         node: 'generate_node',
         status: { cls: 'running', text: '风险评估中...' },
         steps: ['done', 'done', 'running', 'todo', 'todo'],
         chatUser: chatUser,
         chatAgent: '正在进行sql语句风险评估...',
-        summary: [],
+        summary: [
+            ['操作类型', detail_list?.[0]?.op_type || ''],
+            // ['目标表', detail_list?.[0]?.op_type||''],
+            ['影响范围', detail_list?.[0]?.effect_desc || ''],
+            ['可逆性', detail_list?.[0]?.reversible || ''],
+        ],
         risk: '',
         riskNote: '',
         panelMode: 'running',
@@ -121,6 +127,7 @@ const evaluteNode = (nodeValue: Record<string, any>, scene: Record<string, any>)
     const { output: { risk_level = '', risk_reason = '' } = {} } = nodeValue || {};
     if (risk_level === 'green') {
         return {
+            ...scene || {},
             node: 'evalute_node',
             status: { cls: 'running', text: '等待执行...' },
             steps: ['done', 'done', 'done', 'done', 'running'],
@@ -137,7 +144,6 @@ const evaluteNode = (nodeValue: Record<string, any>, scene: Record<string, any>)
             //     ms: '120 ms',
             //     note: '与风险评估预估的 8 条 pending 超 7 天订单一致，无报错，事务已提交。',
             // },
-            summary: [],
             cards: [
                 cards[0],
                 cards[1],
@@ -148,18 +154,13 @@ const evaluteNode = (nodeValue: Record<string, any>, scene: Record<string, any>)
         }
     }
     return {
+        ...scene || {},
         node: 'evalute_node',
         status: { cls: 'wait', text: '待人工审批' },
         steps: ['done', 'done', 'done', 'paused', 'todo'],
         chatUser: chatUser,
         chatAgent:
             '已解析需求并完成风险评估，SQL 已生成，Agent 在审批点暂停，请右侧审阅。',
-        summary: [
-            ['操作类型', 'DDL 改结构（新增列）'],
-            ['目标表', 'demo_business.users'],
-            ['影响范围', '新增 last_login_at TIMESTAMP 列；存量 20 行该列为 NULL，不改写已有数据'],
-            ['可逆性', '可回滚（DROP COLUMN 删除该列）'],
-        ],
         risk: { cls: riskConfig?.[risk_level]?.cls, text: riskConfig?.[risk_level]?.txt },
         riskNote: risk_reason,
         sql: sql,
@@ -209,18 +210,13 @@ const approveNode = (nodeValue: Record<string, any>, scene: Record<string, any>)
         'requireModify': '拒绝执行，重新修改需求输出'
     }
     return {
+        ...scene || {},
         node: 'approval_node',
         status: { cls: risk === 'green' ? 'done' : 'running', text: risk === 'green' ? '无需审批' : '审批中' },
         steps: ['done', 'done', 'done', 'done', approval_decision === 'approve' ? 'running' : 'todo'],
         chatUser: chatUser,
         chatAgent:
             `审批已执行，${approval_result[approval_decision]}`,
-        summary: [
-            ['操作类型', 'DDL 改结构（新增列）'],
-            ['目标表', 'demo_business.users'],
-            ['影响范围', '新增 last_login_at TIMESTAMP 列；存量 20 行该列为 NULL，不改写已有数据'],
-            ['可逆性', '可回滚（DROP COLUMN 删除该列）'],
-        ],
         risk,
         riskNote,
         sql: sql,
@@ -257,18 +253,14 @@ const executeNode = (nodeValue: Record<string, any>, scene: Record<string, any>)
     const { output: { final_result = {} } = {} } = nodeValue || {};
     const { error, row_effects, code } = final_result || {};
     return {
+        ...scene || {},
+
         node: 'execute_node',
         status: { cls: code === 1 ? 'done' : 'failed', text: code === 1 ? '执行成功' : '执行失败' },
         steps: ['done', 'done', 'done', 'done', code === 1 ? 'done' : 'error'],
         chatUser: chatUser,
         chatAgent:
             `执行结果反馈：${code === 1 ? '执行成功' : '执行失败'}`,
-        summary: [
-            ['操作类型', 'DDL 改结构（新增列）'],
-            ['目标表', 'demo_business.users'],
-            ['影响范围', '新增 last_login_at TIMESTAMP 列；存量 20 行该列为 NULL，不改写已有数据'],
-            ['可逆性', '可回滚（DROP COLUMN 删除该列）'],
-        ],
         risk,
         riskNote,
         sql: sql,
@@ -334,10 +326,11 @@ const historyState = {
 // 根据节点反推历史状态数据
 const getHistoryState = (values: Record<string, any>) => {
     const { next, values: { generated_sql = '', input_txt = '', parsed_input = {}, reject_reason = '',
-        risk_level = '', risk_reason = '', approval_decision = '', final_result = {} } = {} } = values || {};
+        risk_level = '', risk_reason = '', approval_decision = '', final_result = {}, sql_analyze = {} } = {} } = values || {};
     if (!next) return;
     const nextNode = next[0];
     let cards: Array<any> = [];
+    let summary: Array<any> = [];
     if (nextNode === 'evalute_node') {
         cards = [
             {
@@ -464,12 +457,22 @@ const getHistoryState = (values: Record<string, any>) => {
         ]
         return executeNode({ output: { final_result } }, { chatUser: input_txt, cards: cards, sql: generated_sql, risk: risk_level, riskNote: risk_reason },)
     }
+    if (sql_analyze) {
+        const { detail_list = [] } = sql_analyze || {};
+        summary = [
+            ['操作类型', detail_list?.[0]?.op_type || ''],
+            // ['目标表', detail_list?.[0]?.op_type||''],
+            ['影响范围', detail_list?.[0]?.effect_desc || ''],
+            ['可逆性', detail_list?.[0]?.reversible || ''],
+        ];
+    }
+
     switch (nextNode) {
         case 'parse_node': return pareseNode({ output: { parsed_input } }, { chatUser: input_txt },);
-        case 'generate_node': return pareseNode({ output: { parsed_input } }, { chatUser: input_txt },);
-        case 'evalute_node': return generateNode({ output: { generated_sql } }, { chatUser: input_txt, cards: cards },);
-        case 'approval_node': return evaluteNode({ output: { risk_level, risk_reason } }, { chatUser: input_txt, cards: cards, sql: generated_sql },);
-        case 'execute_node': return approveNode({ output: { approval_decision, reject_reason, input_txt } }, { chatUser: input_txt, cards: cards, sql: generated_sql, risk: risk_level, riskNote: risk_reason },);
+        case 'generate_node': return pareseNode({ output: { parsed_input, sql_analyze } }, { chatUser: input_txt },);
+        case 'evalute_node': return generateNode({ output: { generated_sql, sql_analyze } }, { chatUser: input_txt, cards: cards, },);
+        case 'approval_node': return evaluteNode({ output: { risk_level, risk_reason, sql_analyze } }, { chatUser: input_txt, cards: cards, sql: generated_sql, summary },);
+        case 'execute_node': return approveNode({ output: { approval_decision, reject_reason, input_txt, sql_analyze } }, { chatUser: input_txt, cards: cards, sql: generated_sql, risk: risk_level, riskNote: risk_reason, summary },);
         default: return null;
     }
 }

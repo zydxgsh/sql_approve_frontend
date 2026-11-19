@@ -3,20 +3,18 @@ import { serveGet, servePost } from "@/utils/request";
 import readSSE from '@/utils/useSSE';
 import { message } from 'antd';
 import { cancelled } from 'redux-saga/effects';
-import { AgentState } from '../config/dataType';
-import { SCENES, SceneKey } from '../config/scenes';
 // import * as agentService from '../services/agent';
 
 /** 从场景配置构造初始 state */
-const buildState = (sceneKey: SceneKey, extra?: Partial<AgentState>): Partial<AgentState> => {
-    const sc = SCENES[sceneKey];
-    return {
-        sceneKey,
-        scene: sc,
-        chatUserMsg: sc.chatUser,
-        ...extra,
-    };
-}
+// const buildState = (sceneKey: SceneKey, extra?: Partial<AgentState>): Partial<AgentState> => {
+//     const sc = SCENES[sceneKey];
+//     return {
+//         sceneKey,
+//         scene: sc,
+//         chatUserMsg: sc.chatUser,
+//         ...extra,
+//     };
+// }
 
 const consumeSSE = async (response: Response, callback?: (evt: any) => void, signal?: AbortSignal) => {
     // console.log('进入切片解析', response);
@@ -48,10 +46,10 @@ export default {
          * 切换演示场景（原型评审用）
          * payload: { sceneKey }
          */
-        *switchScene({ payload }: SagaAction, { put }: SagaEffects) {
-            const { sceneKey } = payload as { sceneKey: SceneKey };
-            yield put({ type: 'updateState', payload: buildState(sceneKey, { requirement: '' }) });
-        },
+        // *switchScene({ payload }: SagaAction, { put }: SagaEffects) {
+        //     const { sceneKey } = payload as { sceneKey: SceneKey };
+        //     yield put({ type: 'updateState', payload: buildState(sceneKey, { requirement: '' }) });
+        // },
 
         /**
          * 提交新需求 → 启动 Agent
@@ -171,15 +169,15 @@ export default {
         /**
          * 重置演示数据
          */
-        *resetDemo({ payload }: SagaAction, { put, call }: SagaEffects) {
-            // try {
-            //     yield call(agentService.resetDemo);
-            //     message.success('演示数据已重置');
-            //     yield put({ type: 'updateState', payload: buildState('approve-amber') });
-            // } catch (e: any) {
-            //     message.error(e?.message || '重置失败');
-            // }
-        },
+        // *resetDemo({ payload }: SagaAction, { put, call }: SagaEffects) {
+        // try {
+        //     yield call(agentService.resetDemo);
+        //     message.success('演示数据已重置');
+        //     yield put({ type: 'updateState', payload: buildState('approve-amber') });
+        // } catch (e: any) {
+        //     message.error(e?.message || '重置失败');
+        // }
+        // },
     },
 
     reducers: {
